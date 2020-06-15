@@ -1,0 +1,8 @@
+{
+  "domain": "thermiagenesis",
+  "name": "Thermia Genesis",
+  "codeowners": ["@cjne"],
+  "requirements": ["pythermiagenesis"],
+  "config_flow": true,
+  "quality_scale": "platinum"
+}

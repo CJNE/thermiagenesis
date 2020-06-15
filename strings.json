@@ -1,0 +1,22 @@
+{
+  "config": {
+    "flow_title": "Thermia Heatpump: {model}",
+    "step": {
+      "user": {
+        "description": "Set up Thermia Genesis Heatpump integration.",
+        "data": {
+          "host": "Hostname or IP address",
+          "port": "Modbus port",
+          "type": "Heatpump model"
+        }
+      }
+    },
+    "error": {
+      "wrong_host": "Invalid hostname or IP address.",
+      "connection_error": "Connection error."
+    },
+    "abort": {
+      "already_configured": "This heatpump is already configured."
+    }
+  }
+}

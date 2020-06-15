@@ -1,0 +1,5 @@
+{
+  "name": "Thermia Inverter/Mega (Genesis)",
+  "content_in_root": true,
+  "domains": ["binary_sensor", "sensor", "switch", "climate"]
+}

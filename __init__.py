@@ -31,7 +31,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     port = entry.data[CONF_PORT]
     kind = entry.data[CONF_TYPE]
 
-    coordinator = ThermiaGenesisDataUpdateCoordinator(hass, host=host, port=port, kind=kind, delay=0.15)
+    coordinator = ThermiaGenesisDataUpdateCoordinator(hass, host=host, port=port, kind=kind)
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:
@@ -70,7 +70,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, host, port, kind ):
         """Initialize."""
-        self.thermia = ThermiaGenesis(host, port=port, kind=kind)
+        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.20)
 
         super().__init__(
             hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL,

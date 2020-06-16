@@ -2,7 +2,7 @@
   "domain": "thermiagenesis",
   "name": "Thermia Genesis",
   "codeowners": ["@cjne"],
-  "requirements": ["pythermiagenesis==0.1.2"],
+  "requirements": ["pythermiagenesis==0.1.3"],
   "config_flow": true,
   "quality_scale": "platinum"
 }

@@ -15,7 +15,7 @@ from .const import DOMAIN
 
 PLATFORMS = ["sensor", "binary_sensor", "climate", "switch"]
 
-SCAN_INTERVAL = timedelta(seconds=10)
+SCAN_INTERVAL = timedelta(seconds=30)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     port = entry.data[CONF_PORT]
     kind = entry.data[CONF_TYPE]
 
-    coordinator = ThermiaGenesisDataUpdateCoordinator(hass, host=host, port=port, kind=kind)
+    coordinator = ThermiaGenesisDataUpdateCoordinator(hass, host=host, port=port, kind=kind, delay=0.15)
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:

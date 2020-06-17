@@ -226,6 +226,13 @@ class ThermiaClimateSensor(ClimateEntity):
         await self.coordinator._async_set_data(self.meta[ATTR_ENABLED], False)
 
     async def async_added_to_hass(self):
+        register_attr = []
+        if(ATTR_TEMPERATURE in self.meta): register_attr.append(self.meta[ATTR_TEMPERATURE])
+        if(ATTR_CURRENT_TEMPERATURE in self.meta): register_attr.append(self.meta[ATTR_CURRENT_TEMPERATURE])
+        if(ATTR_TARGET_TEMP_HIGH in self.meta): register_attr.append(self.meta[ATTR_TARGET_TEMP_HIGH])
+        if(ATTR_TARGET_TEMP_LOW in self.meta): register_attr.append(self.meta[ATTR_TARGET_TEMP_LOW])
+        if(ATTR_ENABLED in self.meta): register_attr.append(self.meta[ATTR_ENABLED])
+        self.coordinator.registerAttribute(register_attr)
         """Connect to dispatcher listening for entity data notifications."""
         self.async_on_remove(
             self.coordinator.async_add_listener(self.async_write_ha_state)
@@ -233,7 +240,7 @@ class ThermiaClimateSensor(ClimateEntity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.wantsRefresh(self.kind)
 
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""

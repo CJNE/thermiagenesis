@@ -39,7 +39,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
-    print(f"${DOMAIN} ${entry.entry_id}")
 
     for component in PLATFORMS:
         hass.async_create_task(
@@ -66,11 +65,13 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 
 class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching ThermiaGenesis data from the printer."""
+    """Class to manage fetching ThermiaGenesis data from the heat pump."""
 
     def __init__(self, hass, host, port, kind ):
         """Initialize."""
-        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.20)
+        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.20, max_registers=16)
+        self.kind = kind
+        self.attributes = {}
 
         super().__init__(
             hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL,
@@ -79,7 +80,8 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Update data via library."""
         try:
-            await self.thermia.async_update()
+            registers = self.attributes.keys()
+            await self.thermia.async_update(only_registers=registers)
         except (ConnectionError) as error:
             raise UpdateFailed(error)
         return self.thermia.data
@@ -91,5 +93,17 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
         except (ConnectionError) as error:
             raise UpdateFailed(error)
         return self.thermia.data
+
+    def registerAttribute(self, attribute):
+        if(type(attribute) is list):
+            for name in attribute:
+                _LOGGER.info(f"Register attribute for update: {name}")
+                self.attributes[name] = True
+        else:
+            _LOGGER.info(f"Register attribute for update: {attribute}")
+            self.attributes[attribute] = True
+
+    async def wantsRefresh(self, attribute):
+        await self.coordinator.async_request_refresh()
 
 

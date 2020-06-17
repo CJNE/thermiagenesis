@@ -1,6 +1,7 @@
 import logging
 
 from homeassistant.components.switch import SwitchEntity
+from pythermiagenesis.const import REGISTERS
 
 from .const import (
     ATTR_LABEL,
@@ -38,7 +39,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     }
 
     for sensor in SWITCH_TYPES:
-        if sensor in coordinator.data:
+        if REGISTERS[sensor][coordinator.kind]:
             sensors.append(ThermiaSwitch(coordinator, sensor, device_info))
     async_add_entities(sensors, False)
 
@@ -103,6 +104,7 @@ class ThermiaSwitch(SwitchEntity):
         return SWITCH_TYPES[self.kind][ATTR_DEFAULT_ENABLED]
 
     async def async_added_to_hass(self):
+        self.coordinator.registerAttribute(self.kind)
         """Connect to dispatcher listening for entity data notifications."""
         self.async_on_remove(
             self.coordinator.async_add_listener(self.async_write_ha_state)
@@ -110,7 +112,7 @@ class ThermiaSwitch(SwitchEntity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.wantsRefresh(self.kind)
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""

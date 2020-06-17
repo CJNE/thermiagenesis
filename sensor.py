@@ -1,6 +1,7 @@
 import logging
 
 from homeassistant.helpers.entity import Entity
+from pythermiagenesis.const import REGISTERS
 
 from .const import (
     ATTR_LABEL,
@@ -39,7 +40,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
     sensors.append(ThermiaHeatpumpSensor(coordinator, HEATPUMP_SENSOR, device_info))
     for sensor in SENSOR_TYPES:
-        if sensor in coordinator.data:
+        if REGISTERS[sensor][coordinator.kind]:
             sensors.append(ThermiaGenericSensor(coordinator, sensor, device_info))
     async_add_entities(sensors, False)
 
@@ -121,6 +122,10 @@ class ThermiaHeatpumpSensor(Entity):
         return False
 
     async def async_added_to_hass(self):
+        register_attr = [self.kind]
+        for attr in HEATPUMP_ATTRIBUTES:
+            register_attr.append(attr[0])
+        self.coordinator.registerAttribute(register_attr)
         """Connect to dispatcher listening for entity data notifications."""
         self.async_on_remove(
             self.coordinator.async_add_listener(self.async_write_ha_state)
@@ -128,7 +133,7 @@ class ThermiaHeatpumpSensor(Entity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.wantsRefresh([self.kind] + HEATPUMP_ATTRIBUTES )
 
 class ThermiaGenericSensor(Entity):
     """Define a Thermia generic sensor."""
@@ -196,10 +201,11 @@ class ThermiaGenericSensor(Entity):
 
     async def async_added_to_hass(self):
         """Connect to dispatcher listening for entity data notifications."""
+        self.coordinator.registerAttribute(self.kind)
         self.async_on_remove(
             self.coordinator.async_add_listener(self.async_write_ha_state)
         )
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.wantsRefresh(self.kind)

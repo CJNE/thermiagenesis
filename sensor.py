@@ -121,6 +121,11 @@ class ThermiaHeatpumpSensor(Entity):
             if(self.coordinator.data.get(alarm)): return True
         return False
 
+
+    def async_write_ha_state(self):
+        print(f"Writing state for {self.kind}: {self.state} ")
+        super().async_write_ha_state()
+
     async def async_added_to_hass(self):
         register_attr = [self.kind]
         for attr in HEATPUMP_ATTRIBUTES:
@@ -133,7 +138,7 @@ class ThermiaHeatpumpSensor(Entity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.wantsRefresh([self.kind] + HEATPUMP_ATTRIBUTES )
+        await self.coordinator.async_request_refresh()
 
 class ThermiaGenericSensor(Entity):
     """Define a Thermia generic sensor."""
@@ -194,12 +199,17 @@ class ThermiaGenericSensor(Entity):
         """Return the device info."""
         return self._device_info
 
+    def async_write_ha_state(self):
+        print(f"Writing state for {self.kind}: {self.state} ")
+        super().async_write_ha_state()
+
     @property
     def entity_registry_enabled_default(self):
         """Return if the entity should be enabled when first added to the entity registry."""
         return SENSOR_TYPES[self.kind][ATTR_DEFAULT_ENABLED]
 
     async def async_added_to_hass(self):
+        await super().async_added_to_hass()
         """Connect to dispatcher listening for entity data notifications."""
         self.coordinator.registerAttribute(self.kind)
         self.async_on_remove(
@@ -208,4 +218,4 @@ class ThermiaGenericSensor(Entity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.wantsRefresh(self.kind)
+        await self.coordinator.async_request_refresh()

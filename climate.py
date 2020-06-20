@@ -225,6 +225,10 @@ class ThermiaClimateSensor(ClimateEntity):
     async def async_turn_off(self):
         await self.coordinator._async_set_data(self.meta[ATTR_ENABLED], False)
 
+    def async_write_ha_state(self):
+        print(f"Writing state for {self.kind}: {self.state} ")
+        super().async_write_ha_state()
+
     async def async_added_to_hass(self):
         register_attr = []
         if(ATTR_TEMPERATURE in self.meta): register_attr.append(self.meta[ATTR_TEMPERATURE])

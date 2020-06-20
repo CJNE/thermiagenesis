@@ -103,6 +103,10 @@ class ThermiaBinarySensor(BinarySensorEntity):
         """Return if the entity should be enabled when first added to the entity registry."""
         return BINARY_SENSOR_TYPES[self.kind][ATTR_DEFAULT_ENABLED]
 
+    def async_write_ha_state(self):
+        print(f"Writing state for {self.kind}: {self.state} ")
+        super().async_write_ha_state()
+
     async def async_added_to_hass(self):
         self.coordinator.registerAttribute(self.kind)
         """Connect to dispatcher listening for entity data notifications."""
@@ -112,5 +116,5 @@ class ThermiaBinarySensor(BinarySensorEntity):
 
     async def async_update(self):
         """Update Thermia entity."""
-        await self.coordinator.wantsRefresh(self.kind)
+        await self.coordinator.async_request_refresh()
 

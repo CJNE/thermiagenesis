@@ -1,7 +1,9 @@
 """The ThermiaGenesis component."""
 import asyncio
-from datetime import timedelta
 import logging
+from datetime import timedelta
+import time
+from datetime import datetime
 
 from pythermiagenesis import ThermiaGenesis
 
@@ -69,7 +71,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, host, port, kind ):
         """Initialize."""
-        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.20, max_registers=1)
+        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.05, max_registers=1)
         self.kind = kind
         self.attributes = {}
 
@@ -79,12 +81,20 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         """Update data via library."""
+        data = {}
         try:
+            start_time = time.time()
             registers = self.attributes.keys()
-            await self.thermia.async_update(only_registers=registers)
+            data = await self.thermia.async_update(only_registers=registers)
+            #for reg in registers: 
+            #    #await self.thermia.async_update(only_registers=[reg]) #registers)
+            #    print(f"Got {reg}: {self.thermia.data[reg]}")
+            end_time = time.time()
+            print(f"{datetime.now()} Fetching heatpump data took {end_time - start_time} s")
+
         except (ConnectionError) as error:
             raise UpdateFailed(error)
-        return self.thermia.data
+        return data
 
     async def _async_set_data(self, register, value):
         """Set data via library."""

@@ -103,6 +103,10 @@ class ThermiaSwitch(SwitchEntity):
         """Return if the entity should be enabled when first added to the entity registry."""
         return SWITCH_TYPES[self.kind][ATTR_DEFAULT_ENABLED]
 
+    def async_write_ha_state(self):
+        print(f"Writing state for {self.kind}: {self.state} ")
+        super().async_write_ha_state()
+
     async def async_added_to_hass(self):
         self.coordinator.registerAttribute(self.kind)
         """Connect to dispatcher listening for entity data notifications."""

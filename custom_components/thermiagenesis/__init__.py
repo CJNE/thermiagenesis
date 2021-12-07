@@ -1,17 +1,20 @@
 """The ThermiaGenesis component."""
 import asyncio
 import logging
-from datetime import timedelta
 import time
 from datetime import datetime
-
-from pythermiagenesis import ThermiaGenesis
+from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from homeassistant.core import Config, HomeAssistant
+from homeassistant.const import CONF_HOST
+from homeassistant.const import CONF_PORT
+from homeassistant.const import CONF_TYPE
+from homeassistant.core import Config
+from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.update_coordinator import UpdateFailed
+from pythermiagenesis import ThermiaGenesis
 
 from .const import DOMAIN
 
@@ -33,7 +36,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     port = entry.data[CONF_PORT]
     kind = entry.data[CONF_TYPE]
 
-    coordinator = ThermiaGenesisDataUpdateCoordinator(hass, host=host, port=port, kind=kind)
+    coordinator = ThermiaGenesisDataUpdateCoordinator(
+        hass, host=host, port=port, kind=kind
+    )
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:
@@ -69,14 +74,19 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
 class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching ThermiaGenesis data from the heat pump."""
 
-    def __init__(self, hass, host, port, kind ):
+    def __init__(self, hass, host, port, kind):
         """Initialize."""
-        self.thermia = ThermiaGenesis(host, port=port, kind=kind, delay=0.05, max_registers=1)
+        self.thermia = ThermiaGenesis(
+            host, port=port, kind=kind, delay=0.05, max_registers=1
+        )
         self.kind = kind
         self.attributes = {}
 
         super().__init__(
-            hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL,
+            hass,
+            _LOGGER,
+            name=DOMAIN,
+            update_interval=SCAN_INTERVAL,
         )
 
     async def _async_update_data(self):
@@ -86,11 +96,13 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
             start_time = time.time()
             registers = self.attributes.keys()
             data = await self.thermia.async_update(only_registers=registers)
-            #for reg in registers: 
+            # for reg in registers:
             #    #await self.thermia.async_update(only_registers=[reg]) #registers)
             #    print(f"Got {reg}: {self.thermia.data[reg]}")
             end_time = time.time()
-            print(f"{datetime.now()} Fetching heatpump data took {end_time - start_time} s")
+            print(
+                f"{datetime.now()} Fetching heatpump data took {end_time - start_time} s"
+            )
 
         except (ConnectionError) as error:
             raise UpdateFailed(error)
@@ -105,7 +117,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
         return self.thermia.data
 
     def registerAttribute(self, attribute):
-        if(type(attribute) is list):
+        if type(attribute) is list:
             for name in attribute:
                 _LOGGER.info(f"Register attribute for update: {name}")
                 self.attributes[name] = True
@@ -115,5 +127,3 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def wantsRefresh(self, attribute):
         await self.coordinator.async_request_refresh()
-
-

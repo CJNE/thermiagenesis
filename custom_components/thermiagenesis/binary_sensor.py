@@ -3,19 +3,12 @@ import logging
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from pythermiagenesis.const import REGISTERS
 
-from .const import (
-    ATTR_LABEL,
-    ATTR_ICON,
-    ATTR_SCALE,
-    ATTR_CLASS,
-    ATTR_MANUFACTURER,
-    ATTR_UNIT,
-    ATTR_DEFAULT_ENABLED,
-    DOMAIN,
-    BINARY_SENSOR_TYPES,
-    HEATPUMP_ATTRIBUTES,
-    HEATPUMP_ALARMS,
-)
+from .const import ATTR_CLASS
+from .const import ATTR_DEFAULT_ENABLED
+from .const import ATTR_LABEL
+from .const import ATTR_MANUFACTURER
+from .const import BINARY_SENSOR_TYPES
+from .const import DOMAIN
 
 ATTR_COUNTER = "counter"
 ATTR_FIRMWARE = "firmware"
@@ -43,13 +36,14 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             sensors.append(ThermiaBinarySensor(coordinator, sensor, device_info))
     async_add_entities(sensors, False)
 
+
 class ThermiaBinarySensor(BinarySensorEntity):
     """Define a Thermia generic sensor."""
 
     def __init__(self, coordinator, kind, device_info):
         """Initialize."""
         self._name = f"{BINARY_SENSOR_TYPES[kind][ATTR_LABEL]}"
-        #self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
+        # self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
         self._unique_id = f"thermiagenesis_{kind}"
         self._device_info = device_info
         self.coordinator = coordinator
@@ -70,7 +64,8 @@ class ThermiaBinarySensor(BinarySensorEntity):
     @property
     def device_class(self):
         """Return the device class."""
-        if(ATTR_CLASS not in BINARY_SENSOR_TYPES[self.kind]): return None
+        if ATTR_CLASS not in BINARY_SENSOR_TYPES[self.kind]:
+            return None
         return BINARY_SENSOR_TYPES[self.kind][ATTR_CLASS]
 
     @property
@@ -117,4 +112,3 @@ class ThermiaBinarySensor(BinarySensorEntity):
     async def async_update(self):
         """Update Thermia entity."""
         await self.coordinator.async_request_refresh()
-

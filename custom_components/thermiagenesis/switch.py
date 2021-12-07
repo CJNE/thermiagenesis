@@ -3,19 +3,12 @@ import logging
 from homeassistant.components.switch import SwitchEntity
 from pythermiagenesis.const import REGISTERS
 
-from .const import (
-    ATTR_LABEL,
-    ATTR_ICON,
-    ATTR_SCALE,
-    ATTR_CLASS,
-    ATTR_MANUFACTURER,
-    ATTR_UNIT,
-    ATTR_DEFAULT_ENABLED,
-    DOMAIN,
-    SWITCH_TYPES,
-    HEATPUMP_ATTRIBUTES,
-    HEATPUMP_ALARMS,
-)
+from .const import ATTR_CLASS
+from .const import ATTR_DEFAULT_ENABLED
+from .const import ATTR_LABEL
+from .const import ATTR_MANUFACTURER
+from .const import DOMAIN
+from .const import SWITCH_TYPES
 
 ATTR_COUNTER = "counter"
 ATTR_FIRMWARE = "firmware"
@@ -43,13 +36,14 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             sensors.append(ThermiaSwitch(coordinator, sensor, device_info))
     async_add_entities(sensors, False)
 
+
 class ThermiaSwitch(SwitchEntity):
     """Define a Thermia generic switch."""
 
     def __init__(self, coordinator, kind, device_info):
         """Initialize."""
         self._name = f"{SWITCH_TYPES[kind][ATTR_LABEL]}"
-        #self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
+        # self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
         self._unique_id = f"thermiagenesis_{kind}"
         self._device_info = device_info
         self.coordinator = coordinator
@@ -70,7 +64,8 @@ class ThermiaSwitch(SwitchEntity):
     @property
     def device_class(self):
         """Return the device class."""
-        if(ATTR_CLASS not in SWITCH_TYPES[self.kind]): return None
+        if ATTR_CLASS not in SWITCH_TYPES[self.kind]:
+            return None
         return SWITCH_TYPES[self.kind][ATTR_CLASS]
 
     @property
@@ -125,4 +120,3 @@ class ThermiaSwitch(SwitchEntity):
     async def async_turn_off(self, **kwargs):
         """Turn the entity on."""
         await self.coordinator._async_set_data(self.kind, False)
-

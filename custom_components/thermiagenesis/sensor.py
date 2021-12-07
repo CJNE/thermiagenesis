@@ -3,19 +3,16 @@ import logging
 from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
 
-from .const import (
-    ATTR_LABEL,
-    ATTR_ICON,
-    ATTR_SCALE,
-    ATTR_MANUFACTURER,
-    ATTR_UNIT,
-    ATTR_DEFAULT_ENABLED,
-    DOMAIN,
-    SENSOR_TYPES,
-    HEATPUMP_SENSOR,
-    HEATPUMP_ATTRIBUTES,
-    HEATPUMP_ALARMS,
-)
+from .const import ATTR_DEFAULT_ENABLED
+from .const import ATTR_ICON
+from .const import ATTR_LABEL
+from .const import ATTR_MANUFACTURER
+from .const import ATTR_UNIT
+from .const import DOMAIN
+from .const import HEATPUMP_ALARMS
+from .const import HEATPUMP_ATTRIBUTES
+from .const import HEATPUMP_SENSOR
+from .const import SENSOR_TYPES
 
 ATTR_COUNTER = "counter"
 ATTR_FIRMWARE = "firmware"
@@ -44,14 +41,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             sensors.append(ThermiaGenericSensor(coordinator, sensor, device_info))
     async_add_entities(sensors, False)
 
+
 class ThermiaHeatpumpSensor(Entity):
     """Define a Thermia heatpump sensor."""
 
     def __init__(self, coordinator, kind, device_info):
         """Initialize."""
         self._name = "Heatpump"
-        #self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
-        self._unique_id = f"thermiagenesis_heatpump"
+        # self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
+        self._unique_id = "thermiagenesis_heatpump"
         self._device_info = device_info
         self.coordinator = coordinator
         self.kind = kind
@@ -72,19 +70,21 @@ class ThermiaHeatpumpSensor(Entity):
     def device_state_attributes(self):
         """Return the state attributes."""
         for attr in HEATPUMP_ATTRIBUTES:
-            label = (attr[0].split('_', 1)[-1]).title()
+            label = (attr[0].split("_", 1)[-1]).title()
             val = self.coordinator.data.get(attr[0])
-            if(attr[1]): val = f"{val} {attr[1]}"
+            if attr[1]:
+                val = f"{val} {attr[1]}"
             self._attrs[label] = val
-        if(self.has_alarm()): 
-            self._attrs['Active alarms'] = ''
+        if self.has_alarm():
+            self._attrs["Active alarms"] = ""
         return self._attrs
 
     @property
     def icon(self):
         """Return the icon."""
-        if(self.has_alarm()): return 'mdi-alert'
-        return 'mdi-pulse'
+        if self.has_alarm():
+            return "mdi-alert"
+        return "mdi-pulse"
 
     @property
     def unique_id(self):
@@ -116,11 +116,11 @@ class ThermiaHeatpumpSensor(Entity):
         """Return if the entity should be enabled when first added to the entity registry."""
         return True
 
-    def has_alarm(self): 
+    def has_alarm(self):
         for alarm in HEATPUMP_ALARMS:
-            if(self.coordinator.data.get(alarm)): return True
+            if self.coordinator.data.get(alarm):
+                return True
         return False
-
 
     def async_write_ha_state(self):
         print(f"Writing state for {self.kind}: {self.state} ")
@@ -140,13 +140,14 @@ class ThermiaHeatpumpSensor(Entity):
         """Update Thermia entity."""
         await self.coordinator.async_request_refresh()
 
+
 class ThermiaGenericSensor(Entity):
     """Define a Thermia generic sensor."""
 
     def __init__(self, coordinator, kind, device_info):
         """Initialize."""
         self._name = f"{SENSOR_TYPES[kind][ATTR_LABEL]}"
-        #self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
+        # self._name = f"{coordinator.data[ATTR_MODEL]} {SENSOR_TYPES[kind][ATTR_LABEL]}"
         self._unique_id = f"thermiagenesis_{kind}"
         self._device_info = device_info
         self.coordinator = coordinator

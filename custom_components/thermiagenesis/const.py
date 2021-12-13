@@ -119,11 +119,11 @@ SWITCH_TYPES = {
     },
     thermiaconst.ATTR_COIL_ENABLE_TAP_WATER: {
         ATTR_LABEL: "Enable Tap Water",
-        ATTR_DEFAULT_ENABLED: False,
+        ATTR_DEFAULT_ENABLED: True,
     },
     thermiaconst.ATTR_COIL_ENABLE_HEAT: {
         ATTR_LABEL: "Enable Heat",
-        ATTR_DEFAULT_ENABLED: False,
+        ATTR_DEFAULT_ENABLED: True,
     },
     thermiaconst.ATTR_COIL_ENABLE_ACTIVE_COOLING: {
         ATTR_LABEL: "Enable Active Cooling",

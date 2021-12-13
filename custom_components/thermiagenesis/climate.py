@@ -142,17 +142,6 @@ class ThermiaClimateSensor(ClimateEntity):
         val = self.coordinator.data.get(self.meta[ATTR_TEMPERATURE])
         return val
 
-    # @property
-    # def device_state_attributes(self):
-    #    """Return the state attributes."""
-    #    if(KEY_STATE_ATTRIBUTES not in self.meta): return
-    #    for attr in self.meta[KEY_STATE_ATTRIBUTES]:
-    #        label = (attr[0].split('_', 1)[-1]).title()
-    #        val = self.coordinator.data.get(attr[0])
-    #        if(attr[1]): val = f"{val} {attr[1]}"
-    #        self._attrs[label] = val
-    #    return self._attrs
-
     @property
     def unique_id(self):
         """Return a unique_id for this entity."""

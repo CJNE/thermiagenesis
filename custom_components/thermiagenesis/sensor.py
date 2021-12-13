@@ -67,7 +67,7 @@ class ThermiaHeatpumpSensor(Entity):
         return val
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return the state attributes."""
         for attr in HEATPUMP_ATTRIBUTES:
             label = (attr[0].split("_", 1)[-1]).title()
@@ -166,7 +166,7 @@ class ThermiaGenericSensor(Entity):
         return val
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return the state attributes."""
         return self._attrs
 

@@ -45,6 +45,7 @@ ICON_HOLDING = "mdi-gauge"
 CLASS_RELAY = "opening"
 CLASS_ALARM = "problem"
 CLASS_STATE = "plug"
+CLASS_ENERGY = "energy"
 
 ATTR_STATUS = thermiaconst.ATTR_INPUT_FIRST_PRIORITISED_DEMAND
 
@@ -1235,6 +1236,7 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Kwh Total",
         ATTR_UNIT: UNIT_ENERGY,
+        ATTR_CLASS: CLASS_ENERGY,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_WCS_VALVE_POSITION: {

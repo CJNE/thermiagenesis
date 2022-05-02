@@ -27,6 +27,11 @@ UNIT_RPM = "rpm"
 UNIT_KELVIN = "K"
 UNIT_SECONDS = "s"
 UNIT_TEMPERATURE = TEMP_CELSIUS
+UNIT_VOLTAGE = "V"
+UNIT_AMPERE = "A"
+UNIT_WATT = "W"
+UNIT_ENERGY = "kWh"
+
 
 DOMAIN = "thermiagenesis"
 
@@ -1145,79 +1150,79 @@ SENSOR_TYPES = {
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L1_CURRENT: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L1 Current",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_AMPERE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L2_CURRENT: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L2 Current",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_AMPERE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L3_CURRENT: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L3 Current",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_AMPERE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L1_0_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L1 0 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L2_0_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L2 0 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L3_0_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L3 0 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L1_L2_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L1 L2 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L2_L3_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L2 L3 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L3_L1_VOLTAGE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L3 L1 Voltage",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_VOLTAGE,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L1_POWER: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L1 Power",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_WATT,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L2_POWER: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L2 Power",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_WATT,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_L3_POWER: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter L3 Power",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_WATT,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_METER_VALUE: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Meter Value",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_ENERGY,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_COMFORT_MODE: {
@@ -1229,7 +1234,7 @@ SENSOR_TYPES = {
     thermiaconst.ATTR_INPUT_ELECTRIC_METER_KWH_TOTAL: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Kwh Total",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_ENERGY,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_WCS_VALVE_POSITION: {

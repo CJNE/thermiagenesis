@@ -4,6 +4,7 @@ from homeassistant.components.climate.const import ATTR_MAX_TEMP
 from homeassistant.components.climate.const import ATTR_MIN_TEMP
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_HIGH
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_LOW
+from homeassistant.components.sensor import STATE_CLASS_TOTAL_INCREASING
 from homeassistant.const import ATTR_TEMPERATURE
 from homeassistant.const import PERCENTAGE
 from homeassistant.const import TEMP_CELSIUS
@@ -14,6 +15,7 @@ ATTR_MANUFACTURER = "Thermia"
 ATTR_STATUS = "status"
 ATTR_UNIT = "unit"
 ATTR_CLASS = "device_class"
+ATTR_STATE_CLASS = "state_class"
 ATTR_UPTIME = "uptime"
 ATTR_ENABLED = "enabled"
 ATTR_DEFAULT_ENABLED = "default_enabled"
@@ -26,6 +28,7 @@ KEY_STATUS_VALUE = "status_value"
 UNIT_RPM = "rpm"
 UNIT_KELVIN = "K"
 UNIT_SECONDS = "s"
+UNIT_HOURS = "h"
 UNIT_TEMPERATURE = TEMP_CELSIUS
 UNIT_VOLTAGE = "V"
 UNIT_AMPERE = "A"
@@ -57,9 +60,9 @@ HEATPUMP_ATTRIBUTES = [
     [thermiaconst.ATTR_INPUT_QUEUED_DEMAND_THIRD_PRIORITY, None],
     [thermiaconst.ATTR_INPUT_BRINE_IN_TEMPERATURE, UNIT_TEMPERATURE],
     [thermiaconst.ATTR_INPUT_BRINE_OUT_TEMPERATURE, UNIT_TEMPERATURE],
-    [thermiaconst.ATTR_INPUT_COMPRESSOR_OPERATING_HOURS, "h"],
-    [thermiaconst.ATTR_INPUT_TAP_WATER_OPERATING_HOURS, "h"],
-    [thermiaconst.ATTR_INPUT_EXTERNAL_ADDITIONAL_HEATER_OPERATING_HOURS, "h"],
+    [thermiaconst.ATTR_INPUT_COMPRESSOR_OPERATING_HOURS, UNIT_HOURS],
+    [thermiaconst.ATTR_INPUT_TAP_WATER_OPERATING_HOURS, UNIT_HOURS],
+    [thermiaconst.ATTR_INPUT_EXTERNAL_ADDITIONAL_HEATER_OPERATING_HOURS, UNIT_HOURS],
 ]
 HEATPUMP_ALARMS = [
     thermiaconst.ATTR_DINPUT_ALARM_ACTIVE_CLASS_A,
@@ -1043,19 +1046,19 @@ SENSOR_TYPES = {
     thermiaconst.ATTR_INPUT_COMPRESSOR_OPERATING_HOURS: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Compressor Operating Hours",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_HOURS,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_TAP_WATER_OPERATING_HOURS: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Tap Water Operating Hours",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_HOURS,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_EXTERNAL_ADDITIONAL_HEATER_OPERATING_HOURS: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "External Additional Heater Operating Hours",
-        ATTR_UNIT: UNIT_TEMPERATURE,
+        ATTR_UNIT: UNIT_HOURS,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_COMPRESSOR_SPEED_PERCENT: {
@@ -1224,6 +1227,7 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Meter Value",
         ATTR_UNIT: UNIT_ENERGY,
+        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_COMFORT_MODE: {
@@ -1236,6 +1240,7 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Kwh Total",
         ATTR_UNIT: UNIT_ENERGY,
+        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING,
         ATTR_CLASS: CLASS_ENERGY,
         ATTR_DEFAULT_ENABLED: False,
     },

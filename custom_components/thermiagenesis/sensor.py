@@ -1,12 +1,15 @@
 import logging
 
+from homeassistant.components.sensor import STATE_CLASS_MEASUREMENT
 from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
 
+from .const import ATTR_CLASS
 from .const import ATTR_DEFAULT_ENABLED
 from .const import ATTR_ICON
 from .const import ATTR_LABEL
 from .const import ATTR_MANUFACTURER
+from .const import ATTR_STATE_CLASS
 from .const import ATTR_UNIT
 from .const import DOMAIN
 from .const import HEATPUMP_ALARMS
@@ -94,7 +97,7 @@ class ThermiaHeatpumpSensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit the value is expressed in."""
-        return SENSOR_TYPES[self.kind][ATTR_UNIT]
+        return SENSOR_TYPES[self.kind].get(ATTR_UNIT, None)
 
     @property
     def available(self):
@@ -183,7 +186,17 @@ class ThermiaGenericSensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit the value is expressed in."""
-        return SENSOR_TYPES[self.kind][ATTR_UNIT]
+        return SENSOR_TYPES[self.kind].get(ATTR_UNIT, None)
+
+    @property
+    def device_class(self):
+        """Return de device class of the sensor."""
+        return SENSOR_TYPES[self.kind].get(ATTR_CLASS, None)
+
+    @property
+    def state_class(self):
+        """Return de device class of the sensor."""
+        return SENSOR_TYPES[self.kind].get(ATTR_STATE_CLASS, STATE_CLASS_MEASUREMENT)
 
     @property
     def available(self):

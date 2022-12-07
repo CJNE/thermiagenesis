@@ -18,7 +18,7 @@ from homeassistant.components.climate.const import SUPPORT_TARGET_TEMPERATURE
 from homeassistant.components.climate.const import SUPPORT_TARGET_TEMPERATURE_RANGE
 from homeassistant.const import ATTR_TEMPERATURE
 from homeassistant.const import TEMP_CELSIUS
-from homeassistant.util.temperature import convert as convert_temperature
+from homeassistant.util.unit_conversion import TemperatureConverter
 
 from .const import ATTR_DEFAULT_ENABLED
 from .const import ATTR_ENABLED
@@ -107,14 +107,14 @@ class ThermiaClimateSensor(ClimateEntity):
     @property
     def min_temp(self) -> float:
         """Return the minimum temperature."""
-        return convert_temperature(
+        return TemperatureConverter.convert(
             self.meta[ATTR_MIN_TEMP], TEMP_CELSIUS, self.temperature_unit
         )
 
     @property
     def max_temp(self) -> float:
         """Return the maximum temperature."""
-        return convert_temperature(
+        return TemperatureConverter.convert(
             self.meta[ATTR_MAX_TEMP], TEMP_CELSIUS, self.temperature_unit
         )
 

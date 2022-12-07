@@ -21,6 +21,8 @@ ATTR_ENABLED = "enabled"
 ATTR_DEFAULT_ENABLED = "default_enabled"
 ATTR_SCALE = "scale"
 ATTR_ADDR = "address"
+ATTR_MAX_VALUE = "max_value"
+ATTR_MIN_VALUE = "min_value"
 
 KEY_STATE_ATTRIBUTES = "state_attrs"
 KEY_STATUS_VALUE = "status_value"
@@ -1670,11 +1672,17 @@ SENSOR_TYPES = {
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
     },
+}
+
+NUMBER_TYPES = {
     thermiaconst.ATTR_HOLDING_OPERATIONAL_MODE: {
+        # 1: OFF, 2: Standby, 3: ON/Auto
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Operational Mode",
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 3,
     },
     thermiaconst.ATTR_HOLDING_MAX_LIMITATION: {
         ATTR_ICON: ICON_INPUT,
@@ -1758,24 +1766,32 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Minimum Allowed Gear In Heating",
         ATTR_UNIT: None,
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MAXIMUM_ALLOWED_GEAR_IN_HEATING: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Maximum Allowed Gear In Heating",
         ATTR_UNIT: None,
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MAXIMUM_ALLOWED_GEAR_IN_TAP_WATER: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Maximum Allowed Gear In Tap Water",
         ATTR_UNIT: None,
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MINIMUM_ALLOWED_GEAR_IN_TAP_WATER: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Minimum Allowed Gear In Tap Water",
         ATTR_UNIT: None,
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_COOLING_MIX_VALVE_SET_POINT: {
@@ -2069,24 +2085,32 @@ SENSOR_TYPES = {
     thermiaconst.ATTR_HOLDING_MINIMUM_ALLOWED_GEAR_IN_POOL: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Minimum Allowed Gear In Pool",
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MAXIMUM_ALLOWED_GEAR_IN_POOL: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Maximum Allowed Gear In Pool",
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MINIMUM_ALLOWED_GEAR_IN_COOLING: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Minimum Allowed Gear In Cooling",
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_MAXIMUM_ALLOWED_GEAR_IN_COOLING: {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Maximum Allowed Gear In Cooling",
+        ATTR_MIN_VALUE: 1,
+        ATTR_MAX_VALUE: 9,
         ATTR_UNIT: None,
         ATTR_DEFAULT_ENABLED: False,
     },
@@ -2409,6 +2433,9 @@ SENSOR_TYPES = {
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_SELECTED_MODE_FOR_MIXING_VALVE_2: {
+        # 0:Heat, 1:Cool, 2:Auto
+        ATTR_MIN_VALUE: 0,
+        ATTR_MAX_VALUE: 2,
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Selected Mode For Mixing Valve 2",
         ATTR_UNIT: None,
@@ -2433,6 +2460,9 @@ SENSOR_TYPES = {
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_SELECTED_MODE_FOR_MIXING_VALVE_3: {
+        # 0:Heat, 1:Cool, 2:Auto
+        ATTR_MIN_VALUE: 0,
+        ATTR_MAX_VALUE: 2,
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Selected Mode For Mixing Valve 3",
         ATTR_UNIT: None,
@@ -2457,6 +2487,9 @@ SENSOR_TYPES = {
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_SELECTED_MODE_FOR_MIXING_VALVE_4: {
+        # 0:Heat, 1:Cool, 2:Auto
+        ATTR_MIN_VALUE: 0,
+        ATTR_MAX_VALUE: 2,
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Selected Mode For Mixing Valve 4",
         ATTR_UNIT: None,
@@ -2481,6 +2514,9 @@ SENSOR_TYPES = {
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_HOLDING_SELECTED_MODE_FOR_MIXING_VALVE_5: {
+        # 0:Heat, 1:Cool, 2:Auto
+        ATTR_MIN_VALUE: 0,
+        ATTR_MAX_VALUE: 2,
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Selected Mode For Mixing Valve 5",
         ATTR_UNIT: None,

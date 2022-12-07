@@ -99,7 +99,6 @@ class ThermiaBinarySensor(BinarySensorEntity):
         return BINARY_SENSOR_TYPES[self.kind][ATTR_DEFAULT_ENABLED]
 
     def async_write_ha_state(self):
-        print(f"Writing state for {self.kind}: {self.state} ")
         super().async_write_ha_state()
 
     async def async_added_to_hass(self):

@@ -18,7 +18,7 @@ from pythermiagenesis import ThermiaGenesis
 
 from .const import DOMAIN
 
-PLATFORMS = ["sensor", "binary_sensor", "climate", "switch"]
+PLATFORMS = ["sensor", "binary_sensor", "climate", "switch", "number"]
 
 SCAN_INTERVAL = timedelta(seconds=30)
 
@@ -99,9 +99,9 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
             # for reg in registers:
             #    #await self.thermia.async_update(only_registers=[reg]) #registers)
             #    print(f"Got {reg}: {self.thermia.data[reg]}")
-            print(data)
+            _LOGGER.debug(data)
             end_time = time.time()
-            print(
+            _LOGGER.debug(
                 f"{datetime.now()} Fetching heatpump data took {end_time - start_time} s"
             )
 

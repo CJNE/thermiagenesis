@@ -126,7 +126,6 @@ class ThermiaHeatpumpSensor(Entity):
         return False
 
     def async_write_ha_state(self):
-        print(f"Writing state for {self.kind}: {self.state} ")
         super().async_write_ha_state()
 
     async def async_added_to_hass(self):
@@ -214,7 +213,6 @@ class ThermiaGenericSensor(Entity):
         return self._device_info
 
     def async_write_ha_state(self):
-        print(f"Writing state for {self.kind}: {self.state} ")
         super().async_write_ha_state()
 
     @property

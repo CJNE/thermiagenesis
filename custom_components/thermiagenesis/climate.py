@@ -209,7 +209,6 @@ class ThermiaClimateSensor(ClimateEntity):
         await self.coordinator._async_set_data(self.meta[ATTR_ENABLED], False)
 
     def async_write_ha_state(self):
-        print(f"Writing state for {self.kind}: {self.state} ")
         super().async_write_ha_state()
 
     async def async_added_to_hass(self):

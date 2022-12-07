@@ -666,22 +666,22 @@ BINARY_SENSOR_TYPES = {
     },
     thermiaconst.ATTR_DINPUT_MAXIMUM_TIME_FOR_ANTI_LEGIONELLA_EXCEEDED_ALARM: {
         ATTR_LABEL: "Maximum Time For Anti Legionella Exceeded Alarm",
-        ATTR_CLASS: CLASS_RELAY,
+        ATTR_CLASS: CLASS_ALARM,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_DINPUT_GENESIS_SECONDARY_UNIT_ALARM: {
         ATTR_LABEL: "Genesis Secondary Unit Alarm",
-        ATTR_CLASS: CLASS_RELAY,
+        ATTR_CLASS: CLASS_ALARM,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_DINPUT_PRIMARY_UNIT_CONFLICT_ALARM: {
         ATTR_LABEL: "Primary Unit Conflict Alarm",
-        ATTR_CLASS: CLASS_RELAY,
+        ATTR_CLASS: CLASS_ALARM,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_DINPUT_PRIMARY_UNIT_NO_SECONDARY_ALARM: {
         ATTR_LABEL: "Primary Unit No Secondary Alarm",
-        ATTR_CLASS: CLASS_RELAY,
+        ATTR_CLASS: CLASS_ALARM,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_DINPUT_OIL_BOOST_IN_PROGRESS: {

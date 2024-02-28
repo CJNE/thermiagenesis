@@ -2,11 +2,11 @@
   "domain": "thermiagenesis",
   "name": "Thermia Genesis",
   "codeowners": ["@cjne"],
-  "requirements": ["pythermiagenesis==0.1.7"],
-  "dependencies": [],
   "config_flow": true,
-  "issue_tracker": "https://github.com/CJNE/thermiagenesis/issues",
+  "dependencies": [],
   "documentation": "https://github.com/CJNE/thermiagenesis",
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/CJNE/thermiagenesis/issues",
+  "requirements": ["pythermiagenesis==0.1.7"],
   "version": "0.0.11"
 }

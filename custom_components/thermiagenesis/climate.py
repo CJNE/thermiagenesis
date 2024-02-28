@@ -31,6 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 
 SUPPORT_FLAGS = ClimateEntityFeature(0)
 
+
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Add Thermia entities from a config_entry."""
     coordinator = hass.data[DOMAIN][config_entry.entry_id]
@@ -53,6 +54,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
 class ThermiaClimateSensor(ClimateEntity):
     """Define a Thermia climate sensor."""
+
     _enable_turn_on_off_backwards_compatibility = False
 
     def __init__(self, coordinator, kind, device_info):
@@ -76,7 +78,7 @@ class ThermiaClimateSensor(ClimateEntity):
     def supported_features(self) -> int:
         """Return the list of supported features."""
         ret = SUPPORT_FLAGS
-        ret |= (ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF)
+        ret |= ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF
         if ATTR_TEMPERATURE in self.meta:
             ret |= ClimateEntityFeature.TARGET_TEMPERATURE
         if ATTR_TARGET_TEMP_HIGH in self.meta and ATTR_TARGET_TEMP_LOW in self.meta:

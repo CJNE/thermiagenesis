@@ -195,7 +195,9 @@ class ThermiaGenericSensor(Entity):
     @property
     def state_class(self):
         """Return de device class of the sensor."""
-        return SENSOR_TYPES[self.kind].get(ATTR_STATE_CLASS, SensorStateClass.MEASUREMENT)
+        return SENSOR_TYPES[self.kind].get(
+            ATTR_STATE_CLASS, SensorStateClass.MEASUREMENT
+        )
 
     @property
     def available(self):

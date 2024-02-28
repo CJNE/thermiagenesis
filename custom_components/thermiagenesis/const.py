@@ -4,10 +4,10 @@ from homeassistant.components.climate.const import ATTR_MAX_TEMP
 from homeassistant.components.climate.const import ATTR_MIN_TEMP
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_HIGH
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_LOW
-from homeassistant.components.sensor import STATE_CLASS_TOTAL_INCREASING
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.const import ATTR_TEMPERATURE
 from homeassistant.const import PERCENTAGE
-from homeassistant.const import TEMP_CELSIUS
+from homeassistant.const import UnitOfTemperature
 
 ATTR_ICON = "icon"
 ATTR_LABEL = "label"
@@ -31,7 +31,7 @@ UNIT_RPM = "rpm"
 UNIT_KELVIN = "K"
 UNIT_SECONDS = "s"
 UNIT_HOURS = "h"
-UNIT_TEMPERATURE = TEMP_CELSIUS
+UNIT_TEMPERATURE = UnitOfTemperature.CELSIUS
 UNIT_VOLTAGE = "V"
 UNIT_AMPERE = "A"
 UNIT_WATT = "W"
@@ -1229,7 +1229,7 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Meter Value",
         ATTR_UNIT: UNIT_ENERGY,
-        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING,
+        ATTR_STATE_CLASS: SensorStateClass.TOTAL_INCREASING,
         ATTR_DEFAULT_ENABLED: False,
     },
     thermiaconst.ATTR_INPUT_COMFORT_MODE: {
@@ -1242,7 +1242,7 @@ SENSOR_TYPES = {
         ATTR_ICON: ICON_INPUT,
         ATTR_LABEL: "Electric Meter Kwh Total",
         ATTR_UNIT: UNIT_ENERGY,
-        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING,
+        ATTR_STATE_CLASS: SensorStateClass.TOTAL_INCREASING,
         ATTR_CLASS: CLASS_ENERGY,
         ATTR_DEFAULT_ENABLED: False,
     },

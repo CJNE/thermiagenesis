@@ -8,16 +8,11 @@ from homeassistant.components.climate.const import ATTR_MIN_TEMP
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_HIGH
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_LOW
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_STEP
-from homeassistant.components.climate.const import CURRENT_HVAC_HEAT
-from homeassistant.components.climate.const import CURRENT_HVAC_IDLE
-from homeassistant.components.climate.const import CURRENT_HVAC_OFF
-from homeassistant.components.climate.const import HVAC_MODE_AUTO
-from homeassistant.components.climate.const import HVAC_MODE_HEAT
-from homeassistant.components.climate.const import HVAC_MODE_OFF
-from homeassistant.components.climate.const import SUPPORT_TARGET_TEMPERATURE
-from homeassistant.components.climate.const import SUPPORT_TARGET_TEMPERATURE_RANGE
+from homeassistant.components.climate.const import HVACAction
+from homeassistant.components.climate.const import HVACMode
+from homeassistant.components.climate.const import ClimateEntityFeature
 from homeassistant.const import ATTR_TEMPERATURE
-from homeassistant.const import TEMP_CELSIUS
+from homeassistant.const import UnitOfTemperature
 from homeassistant.util.unit_conversion import TemperatureConverter
 
 from .const import ATTR_DEFAULT_ENABLED
@@ -34,6 +29,7 @@ ATTR_MODEL = "Diplomat Inverter Duo"
 
 _LOGGER = logging.getLogger(__name__)
 
+SUPPORT_FLAGS = ClimateEntityFeature(0)
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Add Thermia entities from a config_entry."""
@@ -57,6 +53,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
 class ThermiaClimateSensor(ClimateEntity):
     """Define a Thermia climate sensor."""
+    _enable_turn_on_off_backwards_compatibility = False
 
     def __init__(self, coordinator, kind, device_info):
         """Initialize."""
@@ -67,22 +64,23 @@ class ThermiaClimateSensor(ClimateEntity):
         self._unique_id = f"thermiagenesis_{kind}"
         self._device_info = device_info
         self.coordinator = coordinator
-        self._hvac_mode = CURRENT_HVAC_IDLE
+        self._hvac_mode = HVACAction.IDLE
         self._attrs = {}
 
     @property
     def temperature_unit(self) -> str:
         """Return the unit of measurement used by the platform."""
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def supported_features(self) -> int:
         """Return the list of supported features."""
-        ret = 0
+        ret = SUPPORT_FLAGS
+        ret |= (ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF)
         if ATTR_TEMPERATURE in self.meta:
-            ret = ret | SUPPORT_TARGET_TEMPERATURE
+            ret |= ClimateEntityFeature.TARGET_TEMPERATURE
         if ATTR_TARGET_TEMP_HIGH in self.meta and ATTR_TARGET_TEMP_LOW in self.meta:
-            ret = ret | SUPPORT_TARGET_TEMPERATURE_RANGE
+            ret |= ClimateEntityFeature.TARGET_TEMPERATURE_RANGE
         return ret
 
     @property
@@ -108,14 +106,14 @@ class ThermiaClimateSensor(ClimateEntity):
     def min_temp(self) -> float:
         """Return the minimum temperature."""
         return TemperatureConverter.convert(
-            self.meta[ATTR_MIN_TEMP], TEMP_CELSIUS, self.temperature_unit
+            self.meta[ATTR_MIN_TEMP], UnitOfTemperature.CELSIUS, self.temperature_unit
         )
 
     @property
     def max_temp(self) -> float:
         """Return the maximum temperature."""
         return TemperatureConverter.convert(
-            self.meta[ATTR_MAX_TEMP], TEMP_CELSIUS, self.temperature_unit
+            self.meta[ATTR_MAX_TEMP], UnitOfTemperature.CELSIUS, self.temperature_unit
         )
 
     @property
@@ -174,32 +172,32 @@ class ThermiaClimateSensor(ClimateEntity):
         """
         isEnabled = self.coordinator.data.get(self.meta[ATTR_ENABLED])
         if not isEnabled:
-            return CURRENT_HVAC_OFF
+            return HVACAction.OFF
         val = self.coordinator.data.get(ATTR_STATUS)
         if val == self.meta[KEY_STATUS_VALUE]:
-            return CURRENT_HVAC_HEAT
-        return CURRENT_HVAC_IDLE
+            return HVACAction.HEATING
+        return HVACAction.IDLE
 
     @property
     def hvac_mode(self):
         isEnabled = self.coordinator.data.get(self.meta[ATTR_ENABLED])
         if not isEnabled:
-            return HVAC_MODE_OFF
+            return HVACMode.OFF
         val = self.coordinator.data.get(ATTR_STATUS)
         if val == self.meta[KEY_STATUS_VALUE]:
-            return HVAC_MODE_HEAT
-        return HVAC_MODE_AUTO
+            return HVACMode.HEAT
+        return HVACMode.AUTO
 
     @property
     def hvac_modes(self):
-        return [HVAC_MODE_OFF, HVAC_MODE_AUTO]
+        return [HVACMode.OFF, HVACMode.AUTO]
 
     async def async_set_hvac_mode(self, hvac_mode: str):
         """Set new target hvac mode."""
         print(f"Set hvac mode {hvac_mode}")
-        if hvac_mode == HVAC_MODE_OFF:
+        if hvac_mode == HVACMode.OFF:
             await self.coordinator._async_set_data(self.meta[ATTR_ENABLED], False)
-        if hvac_mode == HVAC_MODE_AUTO:
+        if hvac_mode == HVACMode.AUTO:
             await self.coordinator._async_set_data(self.meta[ATTR_ENABLED], True)
 
     async def async_turn_on(self):

@@ -1,4 +1,5 @@
 """Adds config flow for ThermiaGenesis heat pump."""
+from enum import Enum
 import logging
 
 import voluptuous as vol
@@ -6,6 +7,7 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_HOST
 from homeassistant.const import CONF_PORT
 from homeassistant.const import CONF_TYPE
+from homeassistant.helpers.selector import selector
 from pythermiagenesis import ThermiaConnectionError
 from pythermiagenesis import ThermiaGenesis
 from pythermiagenesis.const import ATTR_COIL_ENABLE_HEAT
@@ -58,7 +60,11 @@ class ThermiaGenesisConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 {
                     vol.Required(CONF_HOST, default=defaults[CONF_HOST]): str,
                     vol.Required(CONF_PORT, default=defaults[CONF_PORT]): int,
-                    vol.Required(CONF_TYPE, default=defaults[CONF_TYPE]): str,
+                    vol.Required(CONF_TYPE, default=defaults[CONF_TYPE]): selector({
+                        "select": {
+                            "options": ["inverter", "mega"],
+                        }
+                    })
                 }
             ),
             errors=self._errors,

@@ -1,6 +1,6 @@
 import logging
 
-from homeassistant.components.sensor import STATE_CLASS_MEASUREMENT
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
 
@@ -195,7 +195,7 @@ class ThermiaGenericSensor(Entity):
     @property
     def state_class(self):
         """Return de device class of the sensor."""
-        return SENSOR_TYPES[self.kind].get(ATTR_STATE_CLASS, STATE_CLASS_MEASUREMENT)
+        return SENSOR_TYPES[self.kind].get(ATTR_STATE_CLASS, SensorStateClass.MEASUREMENT)
 
     @property
     def available(self):

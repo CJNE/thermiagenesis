@@ -1,9 +1,9 @@
 import logging
 
-from homeassistant.components.sensor import STATE_CLASS_MEASUREMENT
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.components.number import NumberEntity
 from homeassistant.const import PERCENTAGE
-from homeassistant.const import TEMP_CELSIUS
+from homeassistant.const import UnitOfTemperature
 
 from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
@@ -53,7 +53,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 def range_for_unit(unit):
     if unit == PERCENTAGE:
         return [0, 100]
-    if unit == TEMP_CELSIUS:
+    if unit == UnitOfTemperature.CELSIUS:
         return [-40, 100]
     return [0, 100]
 

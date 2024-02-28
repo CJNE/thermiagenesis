@@ -15,12 +15,14 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import UpdateFailed
 from pythermiagenesis import ThermiaGenesis
+from homeassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
 
 PLATFORMS = ["sensor", "binary_sensor", "climate", "switch", "number"]
 
 SCAN_INTERVAL = timedelta(seconds=30)
+CONFIG_SCHEMA = cv.config_entry_only_config_schema
 
 _LOGGER = logging.getLogger(__name__)
 

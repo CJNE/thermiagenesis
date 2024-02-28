@@ -1,6 +1,5 @@
 """Adds config flow for ThermiaGenesis heat pump."""
 import logging
-from enum import Enum
 
 import voluptuous as vol
 from homeassistant import config_entries

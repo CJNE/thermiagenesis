@@ -1,10 +1,9 @@
 import logging
 
-from homeassistant.components.sensor import SensorStateClass
 from homeassistant.components.number import NumberEntity
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.const import PERCENTAGE
 from homeassistant.const import UnitOfTemperature
-
 from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
 
@@ -13,10 +12,10 @@ from .const import ATTR_DEFAULT_ENABLED
 from .const import ATTR_ICON
 from .const import ATTR_LABEL
 from .const import ATTR_MANUFACTURER
+from .const import ATTR_MAX_VALUE
+from .const import ATTR_MIN_VALUE
 from .const import ATTR_STATE_CLASS
 from .const import ATTR_UNIT
-from .const import ATTR_MIN_VALUE
-from .const import ATTR_MAX_VALUE
 from .const import DOMAIN
 from .const import HEATPUMP_ALARMS
 from .const import HEATPUMP_ATTRIBUTES

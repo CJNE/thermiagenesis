@@ -8,9 +8,9 @@ from homeassistant.components.climate.const import ATTR_MIN_TEMP
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_HIGH
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_LOW
 from homeassistant.components.climate.const import ATTR_TARGET_TEMP_STEP
+from homeassistant.components.climate.const import ClimateEntityFeature
 from homeassistant.components.climate.const import HVACAction
 from homeassistant.components.climate.const import HVACMode
-from homeassistant.components.climate.const import ClimateEntityFeature
 from homeassistant.const import ATTR_TEMPERATURE
 from homeassistant.const import UnitOfTemperature
 from homeassistant.util.unit_conversion import TemperatureConverter

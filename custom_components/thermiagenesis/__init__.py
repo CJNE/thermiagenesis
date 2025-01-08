@@ -9,10 +9,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST
 from homeassistant.const import CONF_PORT
 from homeassistant.const import CONF_TYPE
-from homeassistant.core import Config
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import UpdateFailed
 from pythermiagenesis import ThermiaGenesis
@@ -22,12 +21,11 @@ from .const import DOMAIN
 PLATFORMS = ["sensor", "binary_sensor", "climate", "switch", "number"]
 
 SCAN_INTERVAL = timedelta(seconds=30)
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: HomeAssistant, config: Config):
+async def async_setup(hass: HomeAssistant, config: ConfigType):
     """Set up the ThermiaGenesis component."""
     return True
 

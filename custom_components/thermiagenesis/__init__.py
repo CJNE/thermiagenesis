@@ -9,7 +9,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST
 from homeassistant.const import CONF_PORT
 from homeassistant.const import CONF_TYPE
-from homeassistant.core import Config
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import config_validation as cv
@@ -27,7 +27,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: HomeAssistant, config: Config):
+async def async_setup(hass: HomeAssistant, config: ConfigType):
     """Set up the ThermiaGenesis component."""
     return True
 
@@ -49,10 +49,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    for component in PLATFORMS:
-        hass.async_create_task(
-            hass.config_entries.async_forward_entry_setup(entry, component)
-        )
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
 
@@ -107,7 +104,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
                 f"{datetime.now()} Fetching heatpump data took {end_time - start_time} s"
             )
 
-        except ConnectionError as error:
+        except (ConnectionError) as error:
             raise UpdateFailed(error)
         return data
 
@@ -115,7 +112,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
         """Set data via library."""
         try:
             await self.thermia.async_set(register, value)
-        except ConnectionError as error:
+        except (ConnectionError) as error:
             raise UpdateFailed(error)
         return self.thermia.data
 

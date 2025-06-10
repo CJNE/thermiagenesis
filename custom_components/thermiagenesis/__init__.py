@@ -76,7 +76,7 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, host, port, kind):
         """Initialize."""
         self.thermia = ThermiaGenesis(
-            host, port=port, kind=kind, delay=0.05, max_registers=1
+            host, port=port, kind=kind, delay=0.05, max_registers=16
         )
         self.kind = kind
         self.attributes = {}

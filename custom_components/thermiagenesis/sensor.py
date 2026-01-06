@@ -1,7 +1,7 @@
 import logging
 
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.sensor import SensorStateClass
-from homeassistant.helpers.entity import Entity
 from pythermiagenesis.const import REGISTERS
 
 from .const import ATTR_CLASS
@@ -45,7 +45,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities(sensors, False)
 
 
-class ThermiaHeatpumpSensor(Entity):
+class ThermiaHeatpumpSensor(SensorEntity):
     """Define a Thermia heatpump sensor."""
 
     def __init__(self, coordinator, kind, device_info):
@@ -100,6 +100,18 @@ class ThermiaHeatpumpSensor(Entity):
         return SENSOR_TYPES[self.kind].get(ATTR_UNIT, None)
 
     @property
+    def device_class(self):
+        """Return de device class of the sensor."""
+        return SENSOR_TYPES[self.kind].get(ATTR_CLASS, None)
+
+    @property
+    def state_class(self):
+        """Return de device class of the sensor."""
+        return SENSOR_TYPES[self.kind].get(
+            ATTR_STATE_CLASS, SensorStateClass.MEASUREMENT
+        )
+
+    @property
     def available(self):
         """Return True if entity is available."""
         return self.coordinator.last_update_success
@@ -143,7 +155,7 @@ class ThermiaHeatpumpSensor(Entity):
         await self.coordinator.async_request_refresh()
 
 
-class ThermiaGenericSensor(Entity):
+class ThermiaGenericSensor(SensorEntity):
     """Define a Thermia generic sensor."""
 
     def __init__(self, coordinator, kind, device_info):

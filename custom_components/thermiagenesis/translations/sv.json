@@ -1,0 +1,22 @@
+{
+  "title": "Thermia Värmepump",
+  "config": {
+    "step": {
+      "user": {
+        "description": "Konfigurera Thermia Genesis värmepumpsintegration.",
+        "data": {
+          "host": "Värdnamn eller IP-adress",
+          "port": "Modbus-port",
+          "type": "Värmepumpsmodell"
+        }
+      }
+    },
+    "error": {
+      "wrong_host": "Ogiltigt värdnamn eller IP-adress.",
+      "connection_error": "Anslutningsfel."
+    },
+    "abort": {
+      "already_configured": "Denna värmepump är redan konfigurerad."
+    }
+  }
+}

@@ -8,7 +8,6 @@ from .const import ATTR_MANUFACTURER
 from .const import DOMAIN
 
 ATTR_MODEL = "Diplomat Inverter Duo"
-ATTR_FIRMWARE = "firmware"
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -32,7 +31,7 @@ class ThermiaGenesisEntity(CoordinatorEntity):
             "name": ATTR_MODEL,
             "manufacturer": ATTR_MANUFACTURER,
             "model": ATTR_MODEL,
-            "sw_version": self.coordinator.data.get(ATTR_FIRMWARE),
+            "sw_version": self.coordinator.firmware,
         }
 
     @property
@@ -68,7 +67,7 @@ class HeatpumpEntity(CoordinatorEntity):
             "name": ATTR_MODEL,
             "manufacturer": ATTR_MANUFACTURER,
             "model": ATTR_MODEL,
-            "sw_version": self.coordinator.data.get(ATTR_FIRMWARE),
+            "sw_version": self.coordinator.firmware,
         }
 
     @property

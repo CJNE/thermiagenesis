@@ -24,7 +24,6 @@ from .const import CLIMATE_TYPES
 from .const import DOMAIN
 from .const import KEY_STATUS_VALUE
 
-ATTR_FIRMWARE = "firmware"
 ATTR_MODEL = "Diplomat Inverter Duo"
 
 _LOGGER = logging.getLogger(__name__)
@@ -43,7 +42,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
         "name": ATTR_MODEL,
         "manufacturer": ATTR_MANUFACTURER,
         "model": ATTR_MODEL,
-        "sw_version": coordinator.data.get(ATTR_FIRMWARE),
+        "sw_version": coordinator.firmware,
     }
 
     for sensor in CLIMATE_TYPES:

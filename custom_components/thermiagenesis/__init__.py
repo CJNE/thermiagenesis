@@ -16,6 +16,9 @@ from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import UpdateFailed
 from pythermiagenesis import ThermiaGenesis
+from pythermiagenesis.const import ATTR_INPUT_SOFTWARE_VERSION_MAJOR
+from pythermiagenesis.const import ATTR_INPUT_SOFTWARE_VERSION_MICRO
+from pythermiagenesis.const import ATTR_INPUT_SOFTWARE_VERSION_MINOR
 
 from .const import DOMAIN
 
@@ -41,6 +44,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     coordinator = ThermiaGenesisDataUpdateCoordinator(
         hass, host=host, port=port, kind=kind
     )
+    # Request the software version registers before the first refresh. The
+    # coordinator only reads registers that entities have registered, and no
+    # entity exists yet -- so without this the first refresh asks for nothing
+    # and no firmware version is available for the device_info the platforms
+    # build a moment later.
+    coordinator.registerAttribute(
+        [
+            ATTR_INPUT_SOFTWARE_VERSION_MAJOR,
+            ATTR_INPUT_SOFTWARE_VERSION_MINOR,
+            ATTR_INPUT_SOFTWARE_VERSION_MICRO,
+        ]
+    )
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:
@@ -50,6 +65,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    # Refresh again now that the platforms have registered everything they
+    # want. Entities are added with async_add_entities(..., False), so without
+    # this every entity reports "unknown" until the next scheduled poll -- up
+    # to SCAN_INTERVAL seconds after each setup or reload.
+    await coordinator.async_refresh()
 
     return True
 
@@ -116,13 +137,32 @@ class ThermiaGenesisDataUpdateCoordinator(DataUpdateCoordinator):
             raise UpdateFailed(error)
         return self.thermia.data
 
+    @property
+    def firmware(self):
+        """Return the pump firmware version, or None if not yet read.
+
+        Computed here rather than read from ThermiaGenesis.firmware: the
+        library sets that attribute from self.data *before* overwriting
+        self.data with the freshly read values, so it lags one refresh behind
+        and is still None when device_info is built.
+        """
+        data = self.data or {}
+        try:
+            return (
+                f"{data[ATTR_INPUT_SOFTWARE_VERSION_MAJOR]}"
+                f".{data[ATTR_INPUT_SOFTWARE_VERSION_MINOR]}"
+                f".{data[ATTR_INPUT_SOFTWARE_VERSION_MICRO]}"
+            )
+        except KeyError:
+            return None
+
     def registerAttribute(self, attribute):
         if type(attribute) is list:
             for name in attribute:
-                _LOGGER.info(f"Register attribute for update: {name}")
+                _LOGGER.debug(f"Register attribute for update: {name}")
                 self.attributes[name] = True
         else:
-            _LOGGER.info(f"Register attribute for update: {attribute}")
+            _LOGGER.debug(f"Register attribute for update: {attribute}")
             self.attributes[attribute] = True
 
     async def wantsRefresh(self, attribute):

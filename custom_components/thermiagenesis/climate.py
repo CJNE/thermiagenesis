@@ -185,9 +185,6 @@ class ThermiaClimateSensor(ClimateEntity):
         isEnabled = self.coordinator.data.get(self.meta[ATTR_ENABLED])
         if not isEnabled:
             return HVACMode.OFF
-        val = self.coordinator.data.get(ATTR_STATUS)
-        if val == self.meta[KEY_STATUS_VALUE]:
-            return HVACMode.HEAT
         return HVACMode.AUTO
 
     @property
